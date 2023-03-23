@@ -2,7 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
@@ -20,5 +20,6 @@ FROM base AS final
 RUN apt update && apt-get install -y ffmpeg
 RUN mkdir /opt/Vsblty && mkdir /opt/Vsblty/videos && mkdir /opt/Vsblty/convertedVideos && mkdir /opt/Vsblty/processedVideos && chmod -R 777 /opt/Vsblty/
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:8080
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "VideoConverter_Streaming.dll"]
