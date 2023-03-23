@@ -18,7 +18,7 @@ RUN dotnet publish "VideoConverter_Streaming.csproj" -c Release -o /app/publish 
 
 FROM base AS final
 RUN apt update && apt-get install -y ffmpeg
+RUN mkdir /opt/Vsblty && mkdir /opt/Vsblty/videos && mkdir /opt/Vsblty/convertedVideos && mkdir /opt/Vsblty/processedVideos && chmod -R 777 /opt/Vsblty/
 WORKDIR /app
-RUN mkdir /opt/Vsblty && mkdir /opt/Vsblty/videos && mkdir /opt/Vsblty/convertedVideos && mkdir /opt/Vsblty/processedVideos && RUN chmod -R 777 /opt/Vsblty/
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "VideoConverter_Streaming.dll"]
